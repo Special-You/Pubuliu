@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        img {
+            width: 220px;
+            display: block;
+        }
+        .item {
+           position: absolute;
+            box-shadow: 2px 2px 2px #999999;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+<div class="item"><img src="images/1.jpg" alt=""></div>
+<div class="item"><img src="images/2.jpg" alt=""></div>
+<div class="item"><img src="images/3.jpg" alt=""></div>
+<div class="item"><img src="images/4.jpg" alt=""></div>
+<div class="item"><img src="images/5.jpg" alt=""></div>
+<div class="item"><img src="images/6.jpg" alt=""></div>
+<div class="item"><img src="images/7.jpg" alt=""></div>
+<div class="item"><img src="images/8.jpg" alt=""></div>
+<div class="item"><img src="images/9.jpg" alt=""></div>
+<div class="item"><img src="images/10.jpg" alt=""></div>
+<div class="item"><img src="images/11.jpg" alt=""></div>
+<div class="item"><img src="images/12.jpg" alt=""></div>
+<div class="item"><img src="images/13.jpg" alt=""></div>
+<div class="item"><img src="images/14.jpg" alt=""></div>
+<div class="item"><img src="images/15.jpg" alt=""></div>
+<div class="item"><img src="images/16.jpg" alt=""></div>
+<div class="item"><img src="images/17.jpg" alt=""></div>
+<div class="item"><img src="images/18.jpg" alt=""></div>
+<div class="item"><img src="images/19.jpg" alt=""></div>
+<div class="item"><img src="images/20.jpg" alt=""></div>
+<div class="item"><img src="images/21.jpg" alt=""></div>
+<div class="item"><img src="images/22.jpg" alt=""></div>
+</div>
+
+<script>
+    var box = document.getElementById("box");
+    var items = box.children;
+    var gap = 10;
+    window.onload = function ( ) {
+        waterFall();
+        function waterFall() {
+            var pageWidth = getClient().width;
+            var itemWidth = items[0].offsetWidth;
+            var columns = parseInt(pageWidth/(itemWidth + gap));
+            var arr = [];
+            for(var i = 0; i<items.length; i++){
+                if (i < columns) {
+                    items[i].style.top = 0;
+                    items[i].style.left = (itemWidth + gap) * i + "px";
+                    arr.push(items[i].offsetHeight);
+                }else {
+                    var minHeight = arr[0];
+                    var index = 0;
+                    for(var j = 0; j<arr.length; j++){
+                        if(minHeight > arr[j]) {
+                            minHeight = arr[j];
+                            index = j;
+                        }
+                    }
+                    items[i].style.top = arr[index] + gap +"px";
+                    items[i].style.left = items[index].offsetLeft + "px";
+                    arr[index] = arr[index] + items[i].offsetHeight + gap;
+                }
+            }
+        }
+        window.onresize = function () {
+            waterFall();
+        };
+        window.onscroll = function ( ) {
+            if (getClient().height + getScrollTop() >= items[items.length - 1].offsetTop) {
+                var datas = [
+                    "images/1.jpg",
+                    "images/2.jpg",
+                    "images/3.jpg",
+                    "images/4.jpg",
+                    "images/5.jpg",
+                    "images/6.jpg",
+                    "images/7.jpg",
+                    "images/8.jpg",
+                    "images/9.jpg",
+                    "images/10.jpg",
+                    "images/11.jpg",
+                    "images/12.jpg",
+                    "images/13.jpg",
+                    "images/14.jpg",
+                    "images/15.jpg",
+                    "images/16.jpg",
+                    "images/17.jpg",
+                    "images/18.jpg",
+                    "images/19.jpg",
+                    "images/20.jpg",
+                    "images/21.jpg",
+                    "images/22.jpg",
+                ];
+                for (var i = 0; i < datas.length; i++) {
+                    var div = document.createElement("div");
+                    div.className = "item";
+                    div.innerHTML = '<img src="' + datas[i] + '" alt="">';
+                    box.appendChild(div);
+                }
+                waterFall();
+            }
+        };
+    };
+
+
+
+
+    function getClient() {
+        return {
+            width:window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            height:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        }
+    }
+    function getScrollTop() {
+        return window.pageYOffset || document.documentElement.scrollTop;
+    }
+</script>
+</body>
+</html>
